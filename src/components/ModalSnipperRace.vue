@@ -91,8 +91,7 @@ export default {
             console.log('Auto-play was prevented', error);
             // if the video contain source was found set a  new source
             if (error.name === 'NotSupportedError') {
-              video.src = '/race.mp4';
-              video.play();
+              this.setSrc('/race.mp4');
             }
           });
         }

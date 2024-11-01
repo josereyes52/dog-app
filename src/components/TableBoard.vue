@@ -150,13 +150,14 @@ export default {
         let secondPlace = ref({dog: 2, money: 0});
         let thirtPlace = ref({dog: 3, money: 0});
         let boxList = ref([]);
+        let videoUrl = ref('');
+        const endpoit = "https://hipicous.lottomovilrd.com/videos";
 
         function startCountdown() {
             let placeRun = false;
 
-            if (modalSnipperRaceRef.value) {
-                modalSnipperRaceRef.value.racePlayVideo();
-            }
+            if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.setSrc(videoUrl.value);
+            
 
             const countdownInterval = setInterval(() => {
                 if (timeLeft.value > 0) {
@@ -183,7 +184,7 @@ export default {
                         }
 
                         // aqui llama la funcion para detener el video de carrera
-                        modalSnipperRaceRef.value.stopVideo();
+                        if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.stopVideo();
     
                         // este setTimeout es el tiempo para ocultar la tabla de resultado y llamar la funcion de countdown para
                         // reiniciar el conteo 
@@ -228,7 +229,7 @@ export default {
 
         async function getData() {
             RowScore.value = [];
-            // do a fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
+            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
 
             const data = await fetch('/servicios', {
                 method: 'POST',
@@ -243,14 +244,12 @@ export default {
 
             // allow two values before the point 
             RowScore.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2)); 
-            // console.log(RowScore.value);
 
             getRaceData();
         }
 
         async function getRaceData() {
-            // do a fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
-
+            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
             const data = await fetch('/servicios', {
                 method: 'POST',
                 headers: {
@@ -262,27 +261,34 @@ export default {
             })
             .then(response => response.json())
 
-            // allow two values before the point 
+            const ticketGanador = data.Data.split(';')[1].split('$')[5].split('@');
+            const  videoName = data.Data.split(';')[1].split('$')[3];
+            
             codCarrera.value = data.Data.split(';')[1].split('$')[0];
             jackpot.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[4];
             tiempoRestante.value = Math.abs(data.Data.split(';')[1].split('$')[2]);
-            const ticketGanador = data.Data.split(';')[1].split('$')[5].split('@');
             bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
-
+            
+            videoUrl.value = `${endpoit}/${videoName}`;
+            
             // boxList.value 
-            const test = {
+            const lastValue = {
                 code: data.Data.split(';')[1].split('$')[0],
                 number1: data.Data.split(';')[1].split('$')[1].split('-')[0],
                 number2: data.Data.split(';')[1].split('$')[1].split('-')[1],
                 number3: data.Data.split(';')[1].split('$')[1].split('-')[2],
             }
 
+            if (boxList.value.length === 0) {
+                const history =  getRecord(data.Data.split(';')[1].split('$'));
+                boxList.value = history;
+            }
+
             // check if the boxList has 8 elements if it has remove the last element
             if (boxList.value.length === 8) boxList.value.pop();
-            console.log(boxList.value.length);
-        
+
             // check if the code of the test is not in the boxList
-            if (!boxList.value.find(box => box.code === test.code)) boxList.value.unshift(test);
+            if (!boxList.value.find(box => box.code === lastValue.code)) boxList.value.unshift(lastValue);
 
             firstPlace.value = {
                 dog: parseInt(data.Data.split(';')[1].split('$')[1].split('-')[0]),
@@ -304,8 +310,27 @@ export default {
             }
         }
 
+        function getRecord (data) {
+            const result = [];
+
+            for (let i = 8; i < data.length; i+=8) {
+                if (i == 56) break;
+                
+                result.push({
+                    code: data[i].split('#')[1],
+                    number1: data[i+1].split('-')[0],
+                    number2: data[i+1].split('-')[1],
+                    number3: data[i+1].split('-')[2],
+                });
+            }
+
+            return result;
+        }
+
         getData();
-        startCountdown();
+        setTimeout(() => {
+            startCountdown();
+        }, 1000);
 
         return {
             timeLeft: computed(() => {

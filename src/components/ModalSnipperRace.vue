@@ -54,28 +54,50 @@ export default {
     stopVideo() {
       const video = this.$refs.video;
       if (video) {
-        video.pause();
+        const  pause = video.pause();
         video.currentTime = 0;
-        // remove class show from video div
+        if (pause !== undefined) {
+          pause.then(() => {
+            // Automatic playback started!
+            // Show playing UI.
+          })
+          .catch((error) => {
+            // Auto-play was prevented
+            // Show paused UI.
+            console.log('Auto-play was prevented', error);
+          });
+        }
+
         video.parentElement.parentElement.classList.add('hide');
       }
     },
-    // },
-    // setSrc(url) {
-    //   const video = this.$refs.video;
+    setSrc(url) {
+      const video = this.$refs.video;
       
-    //   if (video) {
-    //     const videoDiv = video.parentElement.parentElement;
-    //     videoDiv.classList.remove('show');
-    //     video.src = url;
-    //     this.playVideo();
-    //     // setTimeout(() => {
-    //       this.resetVideo();
-    //       videoDiv.classList.add('show');
-    //     // }, 100);
-    //   }
+      if (video) {
+        video.src = url;
+        const play = video.play();
 
-    // }
+        if (play !== undefined) {
+          play.then(() => {
+            // Automatic playback started!
+            // Show playing UI.
+            // add class show to video div
+            video.parentElement.parentElement.classList.remove('hide');
+          })
+          .catch((error) => {
+            // Auto-play was prevented
+            // Show paused UI.
+            console.log('Auto-play was prevented', error);
+            // if the video contain source was found set a  new source
+            if (error.name === 'NotSupportedError') {
+              video.src = '/race.mp4';
+              video.play();
+            }
+          });
+        }
+      }
+    }
   }
 }
 </script>

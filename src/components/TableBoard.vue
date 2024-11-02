@@ -165,18 +165,19 @@ export default {
                 } else {
                     clearInterval(countdownInterval);
                     // make a method to remove the class hide from the elements
-                    if (!placeRun) {
-                        placeResult();
-                        placeRun = true;
-                    }
 
                     setTimeout(() => {
+                        if (!placeRun) {
+                            placeResult();
+                            placeRun = true;
+                        }
                         // este setTimeout es el tiempo para mostrar la tabla de resultado
                         setTimeout(() => {
                         // to the element .content-boxes add the class open
                             document.querySelector('.content-boxes').classList.remove('hide');
                             document.querySelector('.banner-content').classList.remove('hide');
-                        }, 5000);
+
+                        }, 18000);
     
                         // aqui se llama a la funcion para mostrar el modal video de fondo
                         if (modalSnipperRef.value) {
@@ -224,7 +225,11 @@ export default {
                 firstPlace.classList.add('hide');
                 secondPlace.classList.add('hide');
                 thirdPlace.classList.add('hide');
-            }, 10000);
+
+                if (modalSnipperRef.value) {
+                    modalSnipperRef.value.playVideo();
+                }
+            }, 13000);
         }
 
         async function getData() {
@@ -269,7 +274,8 @@ export default {
             tiempoRestante.value = Math.abs(data.Data.split(';')[1].split('$')[2]);
             bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
             
-            videoUrl.value = `${endpoit}/${videoName}`;
+            videoUrl.value = `${endpoit}/${videoName.replace(/6/g, '8')}`;
+            console.log(`${endpoit}/${videoName.replace(/6/g, '8')}`);
             
             // boxList.value 
             const lastValue = {
@@ -500,4 +506,5 @@ export default {
 
         /* background: linear-gradient(top, #749593 0%, #64898c 50%, #557D7F 51%, #476b6b 100%); */
     }
-</style>
+</style>import { replace } from 'core-js/fn/symbol'
+

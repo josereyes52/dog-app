@@ -39,7 +39,18 @@ export default {
     resetVideo() {
       const video = this.$refs.video;
       if (video) {
-        video.currentTime = 0;
+        const pause = video.pause();
+        if (pause !== undefined) {
+          pause.then(() => {
+            // Automatic playback started!
+            // Show playing UI.
+          })
+          .catch((error) => {
+            // Auto-play was prevented
+            // Show paused UI.
+            console.log('Auto-play was prevented', error);
+          });
+        }
       }
     },
     pauseVideo() {

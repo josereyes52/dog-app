@@ -89,10 +89,6 @@ export default {
             // Auto-play was prevented
             // Show paused UI.
             console.log('Auto-play was prevented', error);
-            // if the video contain source was found set a  new source
-            if (error.name === 'NotSupportedError') {
-              this.setSrc('/race.mp4');
-            }
           });
         }
       }
@@ -109,7 +105,7 @@ export default {
         <!-- Modal content -->
         <div class="modal-content">
           <!-- add video from public folder-->
-          <video ref="video" class="full-screen-video" muted autoplay>
+          <video ref="video" class="full-screen-video" muted>
             <source src="/race.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>

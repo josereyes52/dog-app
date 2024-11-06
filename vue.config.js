@@ -4,7 +4,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/servicios': {
-        target: 'https://hipicous.lottomovilrd.com:8090',
+        target: 'https://hipicous.lottomovilrd.com:8040',
       }
     }
   }

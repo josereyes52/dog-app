@@ -20,7 +20,6 @@ export default {
         }
     },
     data() {
-        // this is the data that will be used in the component as 8x8 matrix with the corresponding index
         return {
             rowfetch: [
                 [0,6,7,8,9,10,36,37],
@@ -31,12 +30,85 @@ export default {
                 [55,56,57,58,59,5,46,37],
                 [48,49,50,51,52,53,34,0],
                 [54,55,56,57,58,59,60,35]
-        ],
+            ],
             rowClass: `row-${this.index} w-full flex`,
+            bigValue: [],
+            smallValue: [],
+            pBigValue: [],
+            pSmallValue: []
         }
     },
     methods: {
         getRowValue(index, value) {
+            if (this.rowScore[this.rowfetch[index][value]]) {
+                if (this.bigValue.length === 0) {
+                    this.bigValue.push(value);
+                    this.bigValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
+                }
+
+                if (this.smallValue.length === 0) {
+                    this.smallValue.push(value);
+                    this.smallValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
+                }
+
+                if (index === value) {
+                    if (this.bigValue[1] < parseFloat(this.rowScore[this.rowfetch[index][value]])) {
+                        this.bigValue[0] = value + 1;
+                        this.bigValue[1] = parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2);
+                    } else if (this.smallValue[1] > parseFloat(this.rowScore[this.rowfetch[index][value]])) {
+                        this.smallValue[0] = value + 1;
+                        this.smallValue[1] = parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2);
+                    }
+                } else {
+                    if (this.pBigValue.length === 0) {
+                        this.pBigValue.push(value);
+                        this.pBigValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
+                    }
+
+                    if (this.pSmallValue.length === 0) {
+                        this.pSmallValue.push(value);
+                        this.pSmallValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
+                    }
+
+                    if (this.pBigValue[1] < parseFloat(this.rowScore[this.rowfetch[index][value]])) {
+                        this.pBigValue[0] = `${(((index+1) * 8) - 8) + value}`;
+                        this.pBigValue[1] = parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2);
+                    } 
+
+                    if (this.pSmallValue[1] > parseFloat(this.rowScore[this.rowfetch[index][value]])) {
+                        this.pSmallValue[0] = `${(((index+1) * 8) - 8) + value}`;
+                        this.pSmallValue[1] = parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2);
+                    }
+                }
+            }
+
+            if (value === 7 && index === 7) {
+                const allRow = document.querySelectorAll('.score');
+                // find into allRow if any dom element has the class bigScore or smallScore
+                // if it has, remove it
+                allRow.forEach((row) => {
+                    if (row.classList.contains('bigScore')) {
+                        row.classList.remove('bigScore');
+                    }
+
+                    if (row.classList.contains('smallScore')) {
+                        row.classList.remove('smallScore');
+                    }
+                });
+
+                const bPosition = 
+                    (this.bigValue[0] * 9) - 9 > 0 ?
+                    (this.bigValue[0] * 9) - 9 : 0;
+                const sPosition =
+                    (this.smallValue[0] * 9) - 9 > 0 ?
+                    (this.smallValue[0] * 9) - 9 : 0;
+
+                allRow[sPosition]?.classList.add('smallScore');
+                allRow[bPosition]?.classList.add('bigScore');
+                allRow[this.pBigValue[0]]?.classList.add('bigScore');
+                allRow[this.pSmallValue[0]]?.classList.add('smallScore');
+            }
+
             if (this.rowfetch[index]) {
                 return this.rowScore[this.rowfetch[index][value]];
             }
@@ -53,6 +125,14 @@ export default {
     }
     .title:nth-child(n+2) {
         border-bottom: 1px solid #fff;
+    }
+
+    .bigScore {
+        color: red;
+    }
+
+    .smallScore {
+        color: blue;
     }
 
     .title:nth-child(n+2):hover {
@@ -74,11 +154,11 @@ export default {
 
 <template>
     <div :class="rowClass" v-for="n in value" :key="n">
-        <div class="relative title w-1/9 max-w-1/9 h-16 border-r-2 flex justify-center font-mono items-center text-3xl text-white" >{{ n }}
+        <div class="relative title w-1/9 max-w-1/9 h-16 border-r-2 flex justify-center font-mono items-center text-[27px] text-white" >{{ n }}
             <div class="border-l-2 " :class="'bg-c'+ n"></div>
         </div>
             <div 
-                class="title score w-1/9 max-w-1/9 h-16 border-r flex justify-center font-mono items-center text-[24px] text-white bg-[linear-gradient(360deg,_#000000,_#223f38_50%,_#00251d)]" 
+                class="title score w-1/9 max-w-1/9 h-16 border-r flex justify-center font-mono items-center text-[27px] text-white bg-[linear-gradient(360deg,_#000000,_#223f38_50%,_#00251d)]" 
                 v-for="(i, index) in value" 
                 :key="index"
             > 

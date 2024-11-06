@@ -39,7 +39,7 @@ export default {
             <div class="place-result__image">
                 <img :src="'/' + firstPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-yellow-500 bg-yellow-500 text-white ordinal ...">1st</span>
-                <p class="place-result__description">
+                <p class="place-result__description hidden">
                     ${{ firstPlace.money }}
                 </p>
             </div>
@@ -56,14 +56,14 @@ export default {
             <div class="place-result__image">
                 <img :src="'/' + firstPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-yellow-500 bg-yellow-500 text-white ordinal ...">1st</span>
-                <p class="place-result__description">
+                <p class="place-result__description hidden">
                     ${{ firstPlace.money }}
                 </p>
             </div>
             <div class="place-result__image">
                 <img :src="'/' + secondPlace.dog + '.png'">
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-gray-500 bg-gray-500 text-white ordinal ...">2nd</span>
-                <p class="place-result__description">
+                <p class="place-result__description hidden">
                     ${{ secondPlace.money }}
                 </p>
             </div>
@@ -131,7 +131,7 @@ export default {
         text-shadow: 1px 1px 4px #adadad;
     }
 
-    .place-result__description {
+    .place-result__description:not(.hidden) {
         position: absolute;
         right: 0;
         background: #bebebe96;

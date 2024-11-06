@@ -17,7 +17,7 @@
 
                     <p class="text-white flex justify-between w-[201px] text-[14px] mt-1 font-manrope bg-[#d23460] text-sm uppercase tracking-[.25em] py-[3px] px-[5px]">
                         <span>jackpot</span>
-                        <span class="text-[15px] font-semibold">{{ jackpot }}</span>
+                        <span class="text-[17px] font-semibold">{{ jackpot }}</span>
                     </p>
     
                 </div>
@@ -55,7 +55,7 @@
             <div class="rigth w-9/12">
                 <div class="relative pt-[11px] pl-[22px] m-auto">
                     <div class="segundo absolute rounded-t-md right-0 top-0 font-manrope text-center text-sm uppercase tracking-[.25em] pt-[3px] pb-[1px] px-[35px]" >
-                        <span class="text-white">{{segundo}}</span>
+                        <span class="text-black">{{segundo}}</span>
                     </div>
                     <div class="content border overflow-hidden mt-3 rounded-tl-[70px] rounded-br-[70px] text-gray-700 uppercase bg-gray-50 dark:text-white">
                         <div class="row-1 w-full flex border-b-2">
@@ -70,7 +70,7 @@
                             </div>
                 
                             <MainTitle
-                                CustomClass="title w-1/9 max-w-1/9 h-20 flex justify-center items-center text-3xl text-white"
+                                CustomClass="title w-1/9 max-w-1/9 h-20 flex justify-center items-center text-[27px] text-white"
                                 :range="MainTitleRange"
                                 :colors="colors"
                                 />
@@ -84,7 +84,7 @@
                             />
                     </div>
                     <div class="primero absolute rotate-[-90deg] rounded-t-md left-[-67px] bottom-[64px] font-manrope text-center text-sm uppercase tracking-[.25em] py-[3px] px-[35px]" >
-                        <span class="text-white">{{primero}}</span>
+                        <span class="text-black">{{primero}}</span>
                     </div>
                 </div>
             </div>
@@ -136,14 +136,14 @@ export default {
         PlaceResult
     },
     setup() {
-        let countdownFrom = 25;
+        let countdownFrom = 0;
         let timeLeft = ref(countdownFrom);
         const isModalOpen = ref(true);
         const modalSnipperRef = ref(null);
         const modalSnipperRaceRef = ref(null);
         const RowScore = ref([]);
         let codCarrera = ref('000000');
-        let jackpot = ref('3756,19');
+        let jackpot = ref('00.00');
         let tiempoRestante = ref();
         let bannerText = ref('');
         let firstPlace = ref({dog: 1, money: 0});
@@ -155,30 +155,63 @@ export default {
 
         function startCountdown() {
             let placeRun = false;
-
-            if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.setSrc(videoUrl.value);
-            
+            let isShow = false
+            let initRace = false;
 
             const countdownInterval = setInterval(() => {
-                if (timeLeft.value > 0) {
-                    timeLeft.value--;
-                } else {
-                    clearInterval(countdownInterval);
-                    // make a method to remove the class hide from the elements
+                if (timeLeft.value > 0) timeLeft.value--
 
-                    setTimeout(() => {
+                if ((timeLeft.value === 0 || timeLeft.value > 294) && !initRace) {
+                    // console.log(timeLeft.value, !initRace)
+                    initRace = true;
+                    isShow = false;
+                    placeRun = false;
+
+                    getRaceData();
+                    document.querySelector('.content-boxes').classList.add('hide');
+
+                    if (bannerText.value) {
+                        document.querySelector('.banner-content').classList.add('hide');
+                    }
+
+                    setTimeout(() => { 
+                        // console.log('timeLeft', timeLeft.value)
+                        if (timeLeft.value === 0 ){
+                            timeLeft.value = 296;
+                            countdownInterval;
+                        }
+
+                        if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.setSrc(videoUrl.value);
+                        if (modalSnipperRef.value) modalSnipperRef.value.resetVideo();
+                    }, 4000);
+                }
+
+                if (timeLeft.value > 0 && timeLeft.value < 264) {
+                    initRace = false;
+                    if (!isShow && timeLeft.value >= 240) {
+                        if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.stopVideo();
+                        isShow = true;
                         if (!placeRun) {
                             placeResult();
                             placeRun = true;
                         }
-                        // este setTimeout es el tiempo para mostrar la tabla de resultado
+
+                        if (modalSnipperRef.value) {
+                            modalSnipperRef.value.playVideo();
+                        }
+
                         setTimeout(() => {
-                        // to the element .content-boxes add the class open
+                            // to the element .content-boxes add the class open
                             document.querySelector('.content-boxes').classList.remove('hide');
-                            document.querySelector('.banner-content').classList.remove('hide');
+                            if (bannerText.value) {
+                                document.querySelector('.banner-content').classList.remove('hide');
+                            }
 
                         }, 18000);
-    
+                    }
+
+                    if (!isShow) {
+                        isShow = true;
                         // aqui se llama a la funcion para mostrar el modal video de fondo
                         if (modalSnipperRef.value) {
                             modalSnipperRef.value.playVideo();
@@ -186,21 +219,12 @@ export default {
 
                         // aqui llama la funcion para detener el video de carrera
                         if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.stopVideo();
-    
-                        // este setTimeout es el tiempo para ocultar la tabla de resultado y llamar la funcion de countdown para
-                        // reiniciar el conteo 
-                        setTimeout(() => {
-                            // remove the class open from the element .content-boxes
-                            document.querySelector('.content-boxes').classList.add('hide');
-                            document.querySelector('.banner-content').classList.add('hide');
-    
-                            // timeLeft.value = countdownFrom; es para reiniciar el conteo a su valor inicial
-                            timeLeft.value = countdownFrom;
-                            // start the countdown again
-                            startCountdown();
-                            // 300000 es la cantidad de milisegundos la cual es igual a 5 minutos
-                        }, tiempoRestante.value * 1000);
-                    }, 10000);
+
+                        document.querySelector('.content-boxes').classList.remove('hide');
+                        if (bannerText.value) {
+                            document.querySelector('.banner-content').classList.remove('hide');
+                        }
+                    }
                 }
             }, 1000);
         }
@@ -232,9 +256,9 @@ export default {
             }, 13000);
         }
 
-        async function getData() {
+        async function getData(firstLoad = false) {
             RowScore.value = [];
-            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
+            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8040/servicios post method
 
             const data = await fetch('/servicios', {
                 method: 'POST',
@@ -242,15 +266,14 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "Trama": "37;3$1"
+                    "Trama": "42;1$3"
                 })
             })
             .then(response => response.json())
 
             // allow two values before the point 
             RowScore.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2)); 
-
-            getRaceData();
+            if(firstLoad) getRaceData()
         }
 
         async function getRaceData() {
@@ -261,23 +284,24 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "Trama": "29;1"
+                    "Trama": "29;3"
                 })
             })
             .then(response => response.json())
 
             const ticketGanador = data.Data.split(';')[1].split('$')[5].split('@');
             const  videoName = data.Data.split(';')[1].split('$')[3];
-            
+
             codCarrera.value = data.Data.split(';')[1].split('$')[0];
             jackpot.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[4];
             tiempoRestante.value = Math.abs(data.Data.split(';')[1].split('$')[2]);
-            bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
+
+            if (ticketGanador.legth) {
+                bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
+            }
             
-            videoUrl.value = `${endpoit}/${videoName.replace(/6/g, '8')}`;
-            console.log(`${endpoit}/${videoName.replace(/6/g, '8')}`);
-            
-            // boxList.value 
+            videoUrl.value = `${endpoit}/${videoName}`;
+ 
             const lastValue = {
                 code: data.Data.split(';')[1].split('$')[0],
                 number1: data.Data.split(';')[1].split('$')[1].split('-')[0],
@@ -298,20 +322,20 @@ export default {
 
             firstPlace.value = {
                 dog: parseInt(data.Data.split(';')[1].split('$')[1].split('-')[0]),
-                money: 0
+                money: data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[6]
             }
 
             secondPlace.value = {
                 dog: parseInt(data.Data.split(';')[1].split('$')[1].split('-')[1]),
-                money: 0
+                money: data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[7]
             }
 
             thirtPlace.value = {
                 dog: parseInt(data.Data.split(';')[1].split('$')[1].split('-')[2]),
-                money: 0
+                money: data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[8]
             }
 
-            if (tiempoRestante.value < timeLeft.value) {
+            if (tiempoRestante.value) {
                 timeLeft.value = tiempoRestante.value;
             }
         }
@@ -333,10 +357,8 @@ export default {
             return result;
         }
 
-        getData();
-        setTimeout(() => {
-            startCountdown();
-        }, 1000);
+        getData(true);
+        startCountdown();
 
         return {
             timeLeft: computed(() => {
@@ -366,11 +388,6 @@ export default {
             colors: ['bg-c1', 'bg-c2', 'bg-c5', 'bg-c7', 'bg-c8', 'bg-c3', 'bg-c4', 'bg-c6'],
             showBanner: true,
         }
-    },
-    methods: {
-        getData() {
-            this.RowScore = [1.5, 3.6, 745.2, 8.32, 2.5, 3.9, 4.5, 5.9];
-        }
     }
 }
 </script>
@@ -378,7 +395,7 @@ export default {
 <style scoped>
     .segundo,
     .primero {
-        background-color: #c2c2c283;
+        background-color: #ffffff;
     }
 
     .content {
@@ -482,7 +499,7 @@ export default {
         border: 1px solid #a2a2a2;
         border-radius: 1rem;
         margin-bottom: 10px;
-        font-size: 24px;
+        font-size: 27px;
         color: rgb(255, 255, 255);
         /* background: linear-gradient(0deg, rgb(146, 146, 146) 42%, rgba(237,237,237,1) 80%); */
         background-image: linear-gradient(360deg, #000000, #223f38 50%, #00251d);
@@ -507,4 +524,3 @@ export default {
         /* background: linear-gradient(top, #749593 0%, #64898c 50%, #557D7F 51%, #476b6b 100%); */
     }
 </style>import { replace } from 'core-js/fn/symbol'
-

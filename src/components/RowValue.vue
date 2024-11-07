@@ -39,14 +39,22 @@ export default {
         }
     },
     methods: {
+        handleRowScoreChange() {
+            this.bigValue = [];
+            this.smallValue = [];
+            this.pBigValue = [];
+            this.pSmallValue = [];
+        },
         getRowValue(index, value) {
             if (this.rowScore[this.rowfetch[index][value]]) {
-                if (this.bigValue.length === 0) {
+                if (this.bigValue.length === 0 ) {
                     this.bigValue.push(value);
+                    this.pSmallValue = [];
+                    this.pBigValue = [];
                     this.bigValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
                 }
 
-                if (this.smallValue.length === 0) {
+                if (this.smallValue.length === 0 ) {
                     this.smallValue.push(value);
                     this.smallValue.push(parseFloat(this.rowScore[this.rowfetch[index][value]]).toFixed(2));
                 }
@@ -115,6 +123,12 @@ export default {
 
             return 0;
         }
+    },
+    watch: {
+        rowScore: {
+            handler: 'handleRowScoreChange',
+            deep: true // Detecta cambios profundos en el array
+        }
     }
 }
 </script>
@@ -128,7 +142,7 @@ export default {
     }
 
     .bigScore {
-        color: red;
+        color: #3bff49;
     }
 
     .smallScore {

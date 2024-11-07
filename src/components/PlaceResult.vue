@@ -28,7 +28,7 @@ export default {
     <div class="place-result">
         <div class="place-result__firt-place place_item hide">
             <div class="place-result__image">
-                <img :src="'/' + firstPlace.dog + '.png'" >
+                <img :src="'/dog/' + firstPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-yellow-500 bg-yellow-500 text-white ordinal ...">1st</span>
                 <p class="place-result__description">
                     ${{ firstPlace.money }}
@@ -37,7 +37,7 @@ export default {
         </div>
         <div class="place-result__second-place place_item hide">
             <div class="place-result__image">
-                <img :src="'/' + firstPlace.dog + '.png'" >
+                <img :src="'/dog/' + firstPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-yellow-500 bg-yellow-500 text-white ordinal ...">1st</span>
                 <p class="place-result__description hidden">
                     ${{ firstPlace.money }}
@@ -45,7 +45,7 @@ export default {
             </div>
             
             <div class="place-result__image">
-                <img :src="'/' + secondPlace.dog + '.png'" >
+                <img :src="'/dog/' + secondPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-gray-500 bg-gray-500 text-white ordinal ...">2nd</span>
                 <p class="place-result__description">
                     ${{ secondPlace.money }}
@@ -54,14 +54,14 @@ export default {
         </div>
         <div class="place-result__third-place place_item hide">
             <div class="place-result__image">
-                <img :src="'/' + firstPlace.dog + '.png'" >
+                <img :src="'/dog/' + firstPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-yellow-500 bg-yellow-500 text-white ordinal ...">1st</span>
                 <p class="place-result__description hidden">
                     ${{ firstPlace.money }}
                 </p>
             </div>
             <div class="place-result__image">
-                <img :src="'/' + secondPlace.dog + '.png'">
+                <img :src="'/dog/' + secondPlace.dog + '.png'">
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-gray-500 bg-gray-500 text-white ordinal ...">2nd</span>
                 <p class="place-result__description hidden">
                     ${{ secondPlace.money }}
@@ -69,7 +69,7 @@ export default {
             </div>
             
             <div class="place-result__image">
-                <img :src="'/' + thirtPlace.dog + '.png'" >
+                <img :src="'/dog/' + thirtPlace.dog + '.png'" >
                 <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-sm font-medium border border-gray-800 bg-gray-800 text-white dark:border-neutral-200 dark:text-white ordinal ...">3rd</span>
                 <p class="place-result__description">
                     ${{ thirtPlace.money }}
@@ -85,14 +85,14 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         position: relative;
         bottom: 0;
         left: 50%;
         width: 100%;
         height: 100%;
         max-width: 1200px;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, -15%);
     }
 
     .place-result__image {
@@ -112,7 +112,7 @@ export default {
         width: 100%;
         height: 250px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -167,7 +167,7 @@ export default {
         width: 100%;
         height: 250px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -175,9 +175,7 @@ export default {
         width: 100%;
         height: 250px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
 </style>
-
-

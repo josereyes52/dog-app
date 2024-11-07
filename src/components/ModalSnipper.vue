@@ -72,7 +72,7 @@ export default {
         <div class="modal-content">
           <!-- add video from public folder-->
           <video ref="video" class="full-screen-video" muted loop>
-            <source src="/dog.mp4" type="video/mp4">
+            <source src="/dog/dog.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
 

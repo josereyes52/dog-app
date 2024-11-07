@@ -207,7 +207,7 @@ export default {
                                 document.querySelector('.banner-content').classList.remove('hide');
                             }
 
-                        }, 18000);
+                        }, 21000);
                     }
 
                     if (!isShow) {
@@ -253,14 +253,14 @@ export default {
                 if (modalSnipperRef.value) {
                     modalSnipperRef.value.playVideo();
                 }
-            }, 13000);
+            }, 16000);
         }
 
         async function getData(firstLoad = false) {
             RowScore.value = [];
             //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8040/servicios post method
 
-            const data = await fetch('/servicios', {
+            const data = await fetch('https://hipicous.lottomovilrd.com:8040/servicios', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -277,8 +277,8 @@ export default {
         }
 
         async function getRaceData() {
-            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8090/servicios post method
-            const data = await fetch('/servicios', {
+            //fetch to get the data to this endpoint https://hipicous.lottomovilrd.com:8040/servicios post method
+            const data = await fetch('https://hipicous.lottomovilrd.com:8040/servicios', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -298,6 +298,8 @@ export default {
 
             if (ticketGanador.legth) {
                 bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
+            } else {
+                bannerText.value = '¿Tu perro tiene lo que se necesita para ser el campeón?';
             }
             
             videoUrl.value = `${endpoit}/${videoName}`;
@@ -501,7 +503,6 @@ export default {
         margin-bottom: 10px;
         font-size: 27px;
         color: rgb(255, 255, 255);
-        /* background: linear-gradient(0deg, rgb(146, 146, 146) 42%, rgba(237,237,237,1) 80%); */
         background-image: linear-gradient(360deg, #000000, #223f38 50%, #00251d);
         box-shadow: 1px 1px 3px #000000;
     }
@@ -520,7 +521,5 @@ export default {
         text-shadow: 0px 1px 0 #000000;
         border-radius: 3px;
         box-shadow: 0 1px 0 1px rgb(31 48 48), inset 0px 15px 4px 0px rgb(255 255 255 / 33%);
-
-        /* background: linear-gradient(top, #749593 0%, #64898c 50%, #557D7F 51%, #476b6b 100%); */
     }
-</style>import { replace } from 'core-js/fn/symbol'
+</style>

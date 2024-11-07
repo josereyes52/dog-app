@@ -106,7 +106,7 @@ export default {
         <div class="modal-content">
           <!-- add video from public folder-->
           <video ref="video" class="full-screen-video" muted>
-            <source src="/race.mp4" type="video/mp4">
+            <source src="/dog/race.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
 

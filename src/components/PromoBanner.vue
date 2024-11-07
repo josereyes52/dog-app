@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="title" class="banner-content hide w-full mt-6 mb-6 ">
+  <div v-if="title" class="banner-content hide w-full mt-10 mb-10 ">
     <transition name="banner-fade">
       <div v-if="showBanner" class="banner">
         <div class="flex gap-4 max-sm:flex-col items-center justify-center text-center bg-[#33514b] text-white px-6 py-3.5 rounded font-[sans-serif]">

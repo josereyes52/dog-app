@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-wrap relative m-auto w-full pt-12 main-container font-mono">
-        <div class="max-w-screen-2xl flex flex-wrap relative m-auto w-full pt-12 main-container font-mono">
+    <div class="flex flex-wrap relative m-auto w-full main-container font-mono">
+        <div class="max-w-screen-2xl flex flex-wrap relative m-auto w-full pt-6 main-container font-mono">
             <div class="top-container">
                 <div class="top-right w-full max-w-[400px] flex gap-x-1 flex-wrap">
                     <div class="carrera py-1 px-1 flex border-solid border border-[#252d32] items-center justify-between rounded-tl-[5px] rounded-br-[5px]">

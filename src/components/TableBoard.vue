@@ -1,110 +1,112 @@
 <template>
-    <div class="main-container font-mono max-w-screen-2xl flex flex-wrap relative m-auto w-full pt-12">
-        <div class="top-container">
-            <div class="top-right w-full max-w-[400px] flex gap-x-1 flex-wrap">
-                <div class="carrera py-1 px-1 flex border-solid border border-[#252d32] items-center justify-between rounded-tl-[5px] rounded-br-[5px]">
-                    <span class="carrera-title text-white text-[14px] uppercase">carrera</span>
-                    <span class="carrera-codigo text-white text-[20px] font-semibold text-center font-manrope">{{ codCarrera }}</span>
-                </div>
-                
-                <div class="countdown w-6/12 border-solid border border-[#486865] backdrop-blur-sm rounded-tl-[5px] rounded-br-[5px] bg-[#486865] min-w-[96px] flex items-center justify-center flex-col gap-1 ">
-                    <span class="py-1 px-1 w-full countdown font-mono text-[20px] countdown-element days font-manrope font-semibold text-white text-center">{{ timeLeft }}</span>
-                </div>
-                <div class="cuenta-regresiva mt-1 w-full">
-                    <p class="text-white w-max bg-[#c2c2c283] text-[14px] text-left font-manrope text-sm uppercase tracking-[.25em] py-[3px] px-[5px]">
-                        cuenta regresiva
-                    </p>
-
-                    <p class="text-white flex justify-between w-[201px] text-[14px] mt-1 font-manrope bg-[#d23460] text-sm uppercase tracking-[.25em] py-[3px] px-[5px]">
-                        <span>jackpot</span>
-                        <span class="text-[17px] font-semibold">{{ jackpot }}</span>
-                    </p>
+    <div class="flex flex-wrap relative m-auto w-full pt-12 main-container font-mono">
+        <div class="max-w-screen-2xl flex flex-wrap relative m-auto w-full pt-12 main-container font-mono">
+            <div class="top-container">
+                <div class="top-right w-full max-w-[400px] flex gap-x-1 flex-wrap">
+                    <div class="carrera py-1 px-1 flex border-solid border border-[#252d32] items-center justify-between rounded-tl-[5px] rounded-br-[5px]">
+                        <span class="carrera-title text-white text-[14px] uppercase">carrera</span>
+                        <span class="carrera-codigo text-white text-[20px] font-semibold text-center font-manrope">{{ codCarrera }}</span>
+                    </div>
+                    
+                    <div class="countdown w-6/12 border-solid border border-[#486865] backdrop-blur-sm rounded-tl-[5px] rounded-br-[5px] bg-[#486865] min-w-[96px] flex items-center justify-center flex-col gap-1 ">
+                        <span class="py-1 px-1 w-full countdown font-mono text-[20px] countdown-element days font-manrope font-semibold text-white text-center">{{ timeLeft }}</span>
+                    </div>
+                    <div class="cuenta-regresiva mt-1 w-full">
+                        <p class="text-white w-max bg-[#c2c2c283] text-[14px] text-left font-manrope text-sm uppercase tracking-[.25em] py-[3px] px-[5px]">
+                            cuenta regresiva
+                        </p>
     
-                </div>
-            </div>
-        </div>
-        <div class="content-boxes hide flex justify-between">
-            <div class="left">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="box-title">Historial</h2>
-                    </div>
-                    <div class="box-content">
-                        <ul class="box-list">
-                            <li class="h-list" v-for="box in boxList" :key="box.code">
-                                <span class="box-code">
-                                    {{ box.code }}
-                                </span>
-                                <span class="box-number">
-                                    <span class="box-n box-number1" :class="'bg-c' + box.number1">
-                                        {{ box.number1 }}
-                                    </span>
-                                    <span class="box-n box-number2" :class="'bg-c' + box.number2">
-                                        {{ box.number2 }}
-                                    </span>
-                                    <span class="box-n box-number2" :class="'bg-c' + box.number3">
-                                        {{ box.number3 }}
-                                    </span>
-                                </span>
-                            </li>
-                            
-                        </ul>
+                        <p class="text-white flex justify-between w-[201px] text-[14px] mt-1 font-manrope bg-[#d23460] text-sm uppercase tracking-[.25em] py-[3px] px-[5px]">
+                            <span>jackpot</span>
+                            <span class="text-[17px] font-semibold">{{ jackpot }}</span>
+                        </p>
+        
                     </div>
                 </div>
             </div>
-            <div class="rigth w-9/12">
-                <div class="relative pt-[11px] pl-[22px] m-auto">
-                    <div class="segundo absolute rounded-t-md right-0 top-0 font-manrope text-center text-sm uppercase tracking-[.25em] pt-[3px] pb-[1px] px-[35px]" >
-                        <span class="text-black">{{segundo}}</span>
+            <div class="content-boxes hide flex justify-between">
+                <div class="left">
+                    <div class="box">
+                        <div class="box-header">
+                            <h2 class="box-title">Historial</h2>
+                        </div>
+                        <div class="box-content">
+                            <ul class="box-list">
+                                <li class="h-list" v-for="box in boxList" :key="box.code">
+                                    <span class="box-code">
+                                        {{ box.code }}
+                                    </span>
+                                    <span class="box-number">
+                                        <span class="box-n box-number1" :class="'bg-c' + box.number1">
+                                            {{ box.number1 }}
+                                        </span>
+                                        <span class="box-n box-number2" :class="'bg-c' + box.number2">
+                                            {{ box.number2 }}
+                                        </span>
+                                        <span class="box-n box-number2" :class="'bg-c' + box.number3">
+                                            {{ box.number3 }}
+                                        </span>
+                                    </span>
+                                </li>
+                                
+                            </ul>
+                        </div>
                     </div>
-                    <div class="content border overflow-hidden mt-3 rounded-tl-[70px] rounded-br-[70px] text-gray-700 uppercase bg-gray-50 dark:text-white">
-                        <div class="row-1 w-full flex border-b-2">
-                            <div class="fist-icon w-1/9 max-w-1/9 h-20 flex justify-center items-center">
-                                <IconsSnipper
-                                    :class="icon" 
-                                    width="w-16" 
-                                    heigth="h-16"  
-                                    color="fill-white"
-                                    svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>'
-                                />
+                </div>
+                <div class="rigth w-9/12">
+                    <div class="relative pt-[11px] pl-[22px] m-auto">
+                        <div class="segundo absolute rounded-t-md right-0 top-0 font-manrope text-center text-sm uppercase tracking-[.25em] pt-[3px] pb-[1px] px-[35px]" >
+                            <span class="text-black">{{segundo}}</span>
+                        </div>
+                        <div class="content border overflow-hidden mt-3 rounded-tl-[70px] rounded-br-[70px] text-gray-700 uppercase bg-gray-50 dark:text-white">
+                            <div class="row-1 w-full flex border-b-2">
+                                <div class="fist-icon w-1/9 max-w-1/9 h-20 flex justify-center items-center">
+                                    <IconsSnipper
+                                        :class="icon" 
+                                        width="w-16" 
+                                        heigth="h-16"  
+                                        color="fill-white"
+                                        svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>'
+                                    />
+                                </div>
+                    
+                                <MainTitle
+                                    CustomClass="title w-1/9 max-w-1/9 h-20 flex justify-center items-center text-[27px] text-white"
+                                    :range="MainTitleRange"
+                                    :colors="colors"
+                                    />
                             </div>
-                
-                            <MainTitle
-                                CustomClass="title w-1/9 max-w-1/9 h-20 flex justify-center items-center text-[27px] text-white"
-                                :range="MainTitleRange"
+    
+                            <RowValue 
+                                :value="RowValue"
+                                :index="1"
+                                :rowScore="RowScore"
                                 :colors="colors"
                                 />
                         </div>
-
-                        <RowValue 
-                            :value="RowValue"
-                            :index="1"
-                            :rowScore="RowScore"
-                            :colors="colors"
-                            />
-                    </div>
-                    <div class="primero absolute rotate-[-90deg] rounded-t-md left-[-67px] bottom-[64px] font-manrope text-center text-sm uppercase tracking-[.25em] py-[3px] px-[35px]" >
-                        <span class="text-black">{{primero}}</span>
+                        <div class="primero absolute rotate-[-90deg] rounded-t-md left-[-67px] bottom-[64px] font-manrope text-center text-sm uppercase tracking-[.25em] py-[3px] px-[35px]" >
+                            <span class="text-black">{{primero}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <PlaceResult 
+                :firstPlace="firstPlace"
+                :secondPlace="secondPlace"
+                :thirtPlace="thirtPlace"
+            />
+
+            <ModalSnipper
+                :isModalOpen="isModalOpen"
+                ref="modalSnipperRef"
+            />
+
+            <ModalSnipperRace
+                :isModalOpen="isModalOpen"
+                ref="modalSnipperRaceRef"
+            />
         </div>
-
-        <PlaceResult 
-            :firstPlace="firstPlace"
-            :secondPlace="secondPlace"
-            :thirtPlace="thirtPlace"
-        />
-    
-        <ModalSnipper
-            :isModalOpen="isModalOpen"
-            ref="modalSnipperRef"
-        />
-
-        <ModalSnipperRace
-            :isModalOpen="isModalOpen"
-            ref="modalSnipperRaceRef"
-        />
 
         <PromoBanner 
             :showBanner="showBanner"

@@ -105,6 +105,7 @@
             <ModalSnipperRace
                 :isModalOpen="isModalOpen"
                 ref="modalSnipperRaceRef"
+                @video-duration="handleVideoDuration"
             />
         </div>
 
@@ -153,6 +154,7 @@ export default {
         let thirtPlace = ref({dog: 3, money: 0});
         let boxList = ref([]);
         let videoUrl = ref('');
+        let videoDuration = ref(0);
         const endpoit = "https://hipicous.lottomovilrd.com/videos";
 
         function startCountdown() {
@@ -164,7 +166,6 @@ export default {
                 if (timeLeft.value > 0) timeLeft.value--
 
                 if ((timeLeft.value === 0 || timeLeft.value > 294) && !initRace) {
-                    // console.log(timeLeft.value, !initRace)
                     initRace = true;
                     isShow = false;
                     placeRun = false;
@@ -177,7 +178,6 @@ export default {
                     }
 
                     setTimeout(() => { 
-                        // console.log('timeLeft', timeLeft.value)
                         if (timeLeft.value === 0 ){
                             timeLeft.value = 296;
                             countdownInterval;
@@ -185,21 +185,19 @@ export default {
 
                         if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.setSrc(videoUrl.value);
                         if (modalSnipperRef.value) modalSnipperRef.value.resetVideo();
-                    }, 4000);
+                    }, 1000);
                 }
 
-                if (timeLeft.value > 0 && timeLeft.value < 264) {
+                if (timeLeft.value > 0 && timeLeft.value < 255) {
                     initRace = false;
-                    if (!isShow && timeLeft.value >= 240) {
+                    if (!isShow && timeLeft.value >= 254) {
                         if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.stopVideo();
+                        if (modalSnipperRef.value) modalSnipperRef.value.playVideo();
+
                         isShow = true;
                         if (!placeRun) {
                             placeResult();
                             placeRun = true;
-                        }
-
-                        if (modalSnipperRef.value) {
-                            modalSnipperRef.value.playVideo();
                         }
 
                         setTimeout(() => {
@@ -209,10 +207,10 @@ export default {
                                 document.querySelector('.banner-content').classList.remove('hide');
                             }
 
-                        }, 21000);
+                        }, (videoDuration.value - 15)  * 1000);
                     }
 
-                    if (!isShow) {
+                    if (!isShow && timeLeft.value > 0) {
                         isShow = true;
                         // aqui se llama a la funcion para mostrar el modal video de fondo
                         if (modalSnipperRef.value) {
@@ -274,7 +272,7 @@ export default {
             .then(response => response.json())
 
             // allow two values before the point 
-            RowScore.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2)); 
+            RowScore.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(1)); 
             if(firstLoad) getRaceData()
         }
 
@@ -301,7 +299,7 @@ export default {
             if (ticketGanador.legth) {
                 bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
             } else {
-                bannerText.value = '¿Tu perro tiene lo que se necesita para ser el campeón?';
+                bannerText.value = 'PEGALE AL JACKPOT !!';
             }
             
             videoUrl.value = `${endpoit}/${videoName}`;
@@ -361,6 +359,10 @@ export default {
             return result;
         }
 
+        function handleVideoDuration(duration) {
+            videoDuration.value = duration;
+        }
+
         getData(true);
         startCountdown();
 
@@ -380,7 +382,9 @@ export default {
             firstPlace,
             secondPlace,
             thirtPlace,
-            boxList
+            boxList,
+            videoDuration,
+            handleVideoDuration,
         };
     },
     data() {

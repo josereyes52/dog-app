@@ -144,8 +144,9 @@ export default {
         align-content: center;
         justify-content: flex-end;
         align-items: center;
-        color: white;
-        font-size: 24px;
+        color: red;
+        font-weight: bold;
+        font-size: 25px;
         border-radius: 6px;
         box-shadow: 3px 5px 7px 0px #0000009c;
         padding-right: 10px;

@@ -22,14 +22,14 @@ export default {
     data() {
         return {
             rowfetch: [
-                [0,6,7,8,9,10,36,37],
-                [60,1,11,12,13,14,38,39],
-                [15,16,2,17,18,19,40,41],
-                [20,21,22,3,23,24,42,43],
-                [50,51,52,53,4,54,44,45],
-                [55,56,57,58,59,5,46,37],
-                [48,49,50,51,52,53,34,0],
-                [54,55,56,57,58,59,60,35]
+                [0,6,7,8,9,10,63,64],
+                [60,1,11,12,13,14,65,66],
+                [15,16,2,17,18,19,67,68],
+                [20,21,22,3,23,24,69,70],
+                [50,51,52,53,4,54,71,72],
+                [55,56,57,58,59,5,73,74],
+                [75,76,77,78,79,80,61,81],
+                [82,83,84,85,86,87,88,62]
             ],
             rowClass: `row-${this.index} w-full flex`,
             bigValue: [],
@@ -94,7 +94,10 @@ export default {
                 const allRow = document.querySelectorAll('.score');
                 // find into allRow if any dom element has the class bigScore or smallScore
                 // if it has, remove it
-                allRow.forEach((row) => {
+                allRow.forEach((row, index) => {
+                    if (index % 9 === 0) {
+                        row.classList.add('degradado');
+                    }
                     if (row.classList.contains('bigScore')) {
                         row.classList.remove('bigScore');
                     }
@@ -141,12 +144,16 @@ export default {
         border-bottom: 1px solid #fff;
     }
 
+    .degradado {
+        background: #548179;
+    }
+
     .bigScore {
-        color: #3bff49;
+        color: red;
     }
 
     .smallScore {
-        color: blue;
+        color: #3bff49;
     }
 
     .title:nth-child(n+2):hover {

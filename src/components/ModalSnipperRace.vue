@@ -7,6 +7,11 @@ export default {
       required: false,
     }
   },
+  data() {
+    return {
+      videoTotalTime: 0, // Store the video duration here
+    };
+  },
   watch: {
     isModalOpen(newVal) {
       if (newVal) {
@@ -76,6 +81,11 @@ export default {
       
       if (video) {
         video.src = url;
+         // Listen for the 'loadedmetadata' event to get the duration
+         video.onloadedmetadata = () => {
+          this.videoTotalTime = video.duration; // Update the duration
+          this.$emit('video-duration', this.videoTotalTime); // Emit the duration to the parent
+        };
         const play = video.play();
 
         if (play !== undefined) {

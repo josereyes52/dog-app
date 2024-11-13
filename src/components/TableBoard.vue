@@ -185,7 +185,7 @@ export default {
 
                         if (modalSnipperRaceRef.value) modalSnipperRaceRef.value.setSrc(videoUrl.value);
                         if (modalSnipperRef.value) modalSnipperRef.value.resetVideo();
-                    }, 1000);
+                    }, 4000);
                 }
 
                 if (timeLeft.value > 0 && timeLeft.value < 255) {
@@ -209,6 +209,7 @@ export default {
 
                         }, (videoDuration.value - 15)  * 1000);
                     }
+
 
                     if (!isShow && timeLeft.value > 0) {
                         isShow = true;
@@ -296,7 +297,7 @@ export default {
             jackpot.value = data.Data.split(';')[1].split('$').map(value => parseFloat(value).toFixed(2))[4];
             tiempoRestante.value = Math.abs(data.Data.split(';')[1].split('$')[2]);
 
-            if (ticketGanador.legth) {
+            if (ticketGanador) {
                 bannerText.value = `El ticket ganador es ${ticketGanador[0]} con un monto de ${parseFloat(ticketGanador[2]).toFixed(2)} en el establecimiento ${ticketGanador[1]}`;
             } else {
                 bannerText.value = 'PEGALE AL JACKPOT !!';
